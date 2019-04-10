@@ -41,14 +41,20 @@ class Timer extends React.Component {
 	}
 
 	stopTimer() {
+		if (this.state.isPaused) {
+			return
+		}
+
 		this.setState({
 			isPaused: true
 		})
-
 		clearInterval(this.timer)
 	}
 
 	resumeTimer() {
+		if (!this.state.isPaused) {
+			return
+		}
 		this.setState({
 			isPaused: false
 		})
@@ -62,10 +68,28 @@ class Timer extends React.Component {
 	}
 
 	render() {
+		var start = {
+			display: this.state.isPaused ? "inline-block" : "none"
+		};
+		var pause = {
+			display: this.state.isPaused ? "none" : "inline-block"
+		}
+
 		return (
 			<div>
 
-				<h4> <button onClick={this.stopTimer}>pause</button> <button onClick={this.resumeTimer}>start</button> Уже прошло {this.state.secondsLeft} секунд! <button onClick={this.restoreTimer}>restore	</button></h4>
+				<h4 className="timer-display">
+					<button style={pause} onClick={this.stopTimer}>
+						<img className="button" src="assets/pause.png" alt="pause"></img>
+					</button>
+					<button style={start} onClick={this.resumeTimer}>
+						<img className="button" src="assets/play2.png" alt="start"></img>
+					</button>
+					Уже прошло {this.state.secondsLeft} секунд!
+					<button onClick={this.restoreTimer}>
+						<img className="button" src="assets/renew2.png" alt="renew"></img>
+					</button>
+				</h4>
 
 			</div>
 		)
